@@ -1,0 +1,137 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prayer Wall</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #f8f9fa;
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            background-color: #000;
+            padding: 15px 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .nav-item {
+            color: white;
+            text-decoration: none;
+            text-align: center;
+            transition: color 0.3s;
+        }
+
+        .nav-item:hover {
+            color: #ccc;
+        }
+
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+            max-width: 1200px;
+            margin: auto;
+        }
+
+        .prayer-container {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            padding: 10px;
+            margin: 10px 0;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .prayer-text {
+            flex: 1;
+            margin-right: 10px;
+        }
+
+        .prayer-date {
+            font-size: 0.8em;
+            color: #888;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="navbar">
+    <a href="dashboard.html" class="nav-item" title="Dashboard">
+        <i class="fas fa-tachometer-alt"></i> 
+    </a>
+    <a href="store.html" class="nav-item" title="Store">
+        <i class="fas fa-store"></i> 
+    </a>
+    <a href="event.html" class="nav-item" title="Events">
+        <i class="fas fa-calendar-alt"></i> 
+    </a>
+    <a href="stories.html" class="nav-item" title="Stories">
+        <i class="fas fa-book-open"></i> 
+    </a>
+    <a href="publish.html" class="nav-item" title="Posts">
+        <i class="fas fa-file-alt"></i> 
+    </a>
+    <a href="tdiary.html" class="nav-item" title="Diary">
+        <i class="fas fa-book"></i> 
+    </a>
+    <a href="prayer.html" class="nav-item" title="Prayer">
+        <i class="fas fa-praying-hands"></i> 
+    </a>
+</div>
+
+    <div class="container">
+        <iframe src="https://giphy.com/embed/6Q6fOc65RMzWD4btpg" width="200" height="200" style="" frameBorder="0" class="giphy-embed" allowFullScreen></iframe><p><a href="https://giphy.com/stickers/bel-diniz-criativa-6Q6fOc65RMzWD4btpg"></a></p>
+         <h1>Prayer Wall</h1>
+        <div id="prayerList" style="width: 100%; max-width: 600px;">
+            <!-- Prayers will be displayed here -->
+        </div>
+    </div>
+
+    <script>
+        // Load prayers from sessionStorage and display them
+        window.onload = function() {
+            const prayerList = document.getElementById('prayerList');
+            const prayers = JSON.parse(sessionStorage.getItem('prayers')) || [];
+
+            prayers.forEach(prayer => {
+                const prayerContainer = document.createElement('div');
+                prayerContainer.classList.add('prayer-container');
+
+                const checkbox = document.createElement('input');
+                checkbox.type = 'checkbox';
+
+                const prayerText = document.createElement('div');
+                prayerText.classList.add('prayer-text');
+                prayerText.innerText = prayer.text;
+
+                const prayerDate = document.createElement('div');
+                prayerDate.classList.add('prayer-date');
+                prayerDate.innerText = prayer.date;
+
+                prayerContainer.appendChild(checkbox);
+                prayerContainer.appendChild(prayerText);
+                prayerContainer.appendChild(prayerDate);
+                prayerList.appendChild(prayerContainer);
+            });
+        };
+    </script>
+
+</body>
+</html>

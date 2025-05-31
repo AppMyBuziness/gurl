@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Books</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #f8f9fa;
+            display: flex;
+        }
+        .navbar {
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: center;
+            background-color: #000;
+            padding: 15px;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            width: 100px;
+            height: 100vh;
+        }
+        .nav-item {
+            color: white;
+            text-decoration: none;
+            text-align: center;
+            padding: 10px;
+            font-size: 24px;
+            transition: color 0.3s;
+            width: 100%;
+        }
+        .nav-item:hover {
+            color: #ccc;
+        }
+        .book-container {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            padding: 20px;
+            max-width: 1200px;
+            margin: auto;
+            position: relative;
+        }
+        .search-bar {
+            margin-bottom: 20px;
+            width: 100%;
+            max-width: 300px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px;
+            position: sticky;
+            top: 20px;
+            z-index: 1;
+        }
+        .book {
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            margin: 10px 0;
+            width: 100%;
+            max-width: 300px;
+            position: relative;
+        }
+        .book-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        .profile-picture {
+            width: 30px; /* Adjust size for better visibility */
+            height: 30px;
+            border-radius: 50%;
+            margin-right: 8px;
+            object-fit: cover;
+        }
+        .profile-picture-container {
+            width: 30px;
+            height: 30px;
+            overflow: hidden;
+        }
+        .username {
+            font-weight: bold;
+            color: #333;
+        }
+        .book img {
+            width: 100%;
+            height: auto;
+            object-fit: cover;
+        }
+        .book-actions {
+            display: flex;
+            justify-content: space-around;
+            margin-top: 10px;
+        }
+        .book-action-button {
+            background-color: transparent;
+            border: none;
+            cursor: pointer;
+            color: black;
+            font-size: 24px;
+            transition: color 0.3s;
+        }
+        .book-action-button:hover {
+            color: #007bff;
+        }
+        /* Right sidebar styles */
+        .social-navbar {
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: center;
+            background-color: purple;
+            padding: 15px;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            width: 100px;
+            height: 100vh;
+            margin-left: auto; /* Align to the right */
+        }
+        .social-nav-item {
+            color: white;
+            text-decoration: none;
+            text-align: center;
+            padding: 10px;
+            font-size: 24px;
+            transition: color 0.3s;
+        }
+        .social-nav-item:hover {
+            color: #ccc;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="navbar">
+        <iframe src="https://giphy.com/embed/Xi4JHEbR8mRMJfLnod" width="90" height="90" frameBorder="0" class="giphy-embed" allowFullScreen></iframe>
+        <a href="dashboard.html" class="nav-item" title="Dashboard">
+            <i class="fas fa-tachometer-alt"></i> 
+        </a>
+        <a href="store.html" class="nav-item" title="Store">
+            <i class="fas fa-store"></i> 
+        </a>
+        <a href="event.html" class="nav-item" title="Events">
+            <i class="fas fa-calendar-alt"></i> 
+        </a>
+        <a href="stories.html" class="nav-item" title="Stories">
+            <i class="fas fa-book-open"></i> 
+        </a>
+        <a href="publish.html" class="nav-item" title="Posts">
+            <i class="fas fa-file-alt"></i> 
+        </a>
+        <a href="tdiary.html" class="nav-item" title="Diary">
+            <i class="fas fa-book"></i> 
+        </a>
+        <a href="prayer.html" class="nav-item" title="Prayer">
+            <i class="fas fa-praying-hands"></i> 
+        </a>
+    </div>
+
+    <div class="book-container" id="bookList">
+        <iframe src="https://giphy.com/embed/Ja0kB1Fq6i1Oo77P4N" width="200" height="200" frameBorder="0" class="giphy-embed" allowFullScreen></iframe>
+        <h2>gurlll Talent</h2>
+        <input type="text" id="searchInput" class="search-bar" placeholder="Search by username or book title" oninput="filterBooks()">
+        <!-- Books will be populated here -->
+    </div>
+
+    <div class="social-navbar">
+        <a href="https://www.instagram.com" class="social-nav-item" title="Instagram">
+            <i class="fab fa-instagram"></i>
+        </a>
+        <a href="https://www.facebook.com" class="social-nav-item" title="Facebook">
+            <i class="fab fa-facebook"></i>
+        </a>
+        <a href="https://www.tiktok.com" class="social-nav-item" title="TikTok">
+            <i class="fab fa-tiktok"></i>
+        </a>
+        <a href="https://www.pinterest.com" class="social-nav-item" title="Pinterest">
+            <i class="fab fa-pinterest"></i>
+        </a>
+        <a href="https://twitter.com" class="social-nav-item" title="X (Twitter)">
+            <i class="fab fa-twitter"></i>
+        </a>
+    </div>
+
+    <script>
+        let originalBooks = []; // Store the original books
+
+        window.onload = function() {
+            loadAllPublishedBooks(); // Load all books for all users
+        };
+
+        // Load all published books from the server
+        function loadAllPublishedBooks() {
+            fetch('api.php', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                body: new URLSearchParams({
+                    action: 'loadBooks',
+                }),
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    originalBooks = data.books; // Store all books
+                    displayBooks(originalBooks); // Display all books
+                } else {
+                    console.error('Error loading books:', data.message);
+                }
+            })
+            .catch(error => {
+                console.error('Error loading books:', error);
+            });
+        }
+
+        // Display books in the DOM
+        function displayBooks(books) {
+            const bookList = document.getElementById('bookList');
+
+            // Clear existing books
+            const existingBooks = bookList.querySelectorAll('.book');
+            existingBooks.forEach(book => book.remove());
+
+            // If no books found, show a message
+            if (books.length === 0) {
+                bookList.innerHTML += '<p>No books found.</p>';
+                return;
+            }
+
+            books.forEach((book) => {
+                const bookDiv = document.createElement('div');
+                bookDiv.classList.add('book');
+
+                bookDiv.innerHTML = `
+                <div class="book-header">
+                    <div class="profile-picture-container">
+                        <img src="${book.publisherProfilePic || ''}" alt="${book.publisher || 'Unknown'}'s profile picture" class="profile-picture">
+                    </div>
+                    <div class="book-info">
+                        <span class="username">${book.publisher || 'Unknown'}</span>
+                        <span class="timestamp">${book.publishedAt || 'Unknown date'}</span>
+                    </div>
+                </div>
+                <h3>${book.title || 'Untitled'}</h3>
+                <img src="${book.cover}" alt="Book Cover" class="book-cover">
+                <p><strong>PDF Link:</strong> <a href="${book.pdf}" target="_blank">Download PDF</a></p>
+                <button class="book-action-button" onclick="readPDF('${book.pdf}')">
+                    <i class="fas fa-volume-up"></i> Read Aloud
+                </button>
+                <div class="book-actions">
+                    <button class="book-action-button" onclick="likeBook('${book.title}')">
+                        <i class="fas fa-thumbs-up"></i> Like
+                    </button>
+                    <button class="book-action-button" onclick="copyLink('${book.pdf}')">
+                        <i class="fas fa-link"></i> Copy Link
+                    </button>
+                    <button class="book-action-button" onclick="reportBook('${book.title}')">
+                        <i class="fas fa-flag"></i> Report
+                    </button>
+                </div>
+                `;
+
+                bookList.appendChild(bookDiv);
+            });
+        }
+
+        // Filter books based on search input
+        function filterBooks() {
+            const searchInput = document.getElementById('searchInput').value.toLowerCase();
+            const filteredBooks = originalBooks.filter(book => {
+                return book.title.toLowerCase().includes(searchInput) || 
+                       (book.publisher && book.publisher.toLowerCase().includes(searchInput));
+            });
+
+            // Clear existing books and display the filtered results
+            displayBooks(filteredBooks);
+        }
+
+        // Read the PDF aloud using TTS
+        async function readPDF(pdfUrl) {
+            const loadingTask = pdfjsLib.getDocument(pdfUrl);
+            loadingTask.promise.then(async (pdf) => {
+                let textContent = '';
+
+                for (let i = 1; i <= pdf.numPages; i++) {
+                    const page = await pdf.getPage(i);
+                    const text = await page.getTextContent();
+                    const textItems = text.items.map(item => item.str);
+                    textContent += textItems.join(' ') + ' '; // Combine all text items
+                }
+
+                speakText(textContent);
+            }).catch((error) => {
+                console.error('Error loading PDF:', error);
+            });
+        }
+
+        // Function to speak extracted text
+        function speakText(text) {
+            const speech = new SpeechSynthesisUtterance(text);
+            speech.lang = 'en-US';
+            window.speechSynthesis.speak(speech);
+        }
+
+        // Placeholder function for liking a book
+        function likeBook(title) {
+            alert(`You liked the book: ${title}`);
+        }
+
+        // Function to copy the PDF link
+        function copyLink(link) {
+            navigator.clipboard.writeText(link).then(() => {
+                alert("Link copied to clipboard!");
+            }).catch(err => {
+                alert("Failed to copy link.");
+            });
+        }
+
+        // Placeholder function for reporting a book
+        function reportBook(title) {
+            alert(`Report functionality for "${title}" is not implemented yet.`);
+        }
+    </script>
+
+    <footer style="text-align: center; padding: 10px; background-color: rgb(236, 27, 69); position: fixed; bottom: 0; left: 0; width: 100%; z-index: 1000;">
+        <p>&copy; 2025 Novel Nexuss. All rights reserved.</p>
+    </footer>
+</body>
+</html>

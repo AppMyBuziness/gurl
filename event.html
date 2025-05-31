@@ -1,0 +1,159 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Events Page</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #f8f9fa;
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            background-color: #000;
+            padding: 15px 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .nav-item {
+            color: white;
+            text-decoration: none;
+            text-align: center;
+            transition: color 0.3s;
+        }
+
+        .nav-item:hover {
+            color: #ccc;
+        }
+
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+            max-width: 1200px;
+            margin: auto;
+          
+        }
+
+        h1 {
+            margin-bottom: 20px;
+        }
+
+        .event-card {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            margin: 10px 0;
+            width: 100%;
+            max-width: 600px;
+            transition: transform 0.2s;
+        }
+
+        .event-card:hover {
+            transform: scale(1.02);
+        }
+
+        .event-title {
+            font-size: 1.5em;
+            margin: 0;
+        }
+
+        .event-date {
+            color: #888;
+            margin: 5px 0;
+        }
+
+        .event-description {
+            margin: 10px 0;
+            font-size: 1em;
+            color: #000;
+        }
+
+        .rsvp-button {
+            background-color: #000;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.3s;
+            text-align: center;
+        }
+
+        .rsvp-button:hover {
+            background-color: #000;
+        }
+    </style>
+</head>
+
+<body>
+
+  <div class="navbar">
+    <a href="dashboard.html" class="nav-item" title="Dashboard">
+        <i class="fas fa-tachometer-alt"></i> 
+    </a>
+    <a href="store.html" class="nav-item" title="Store">
+        <i class="fas fa-store"></i> 
+    </a>
+    <a href="event.html" class="nav-item" title="Events">
+        <i class="fas fa-calendar-alt"></i> 
+    </a>
+    <a href="stories.html" class="nav-item" title="Stories">
+        <i class="fas fa-book-open"></i> 
+    </a>
+    <a href="publish.html" class="nav-item" title="Posts">
+        <i class="fas fa-file-alt"></i> 
+    </a>
+    <a href="tdiary.html" class="nav-item" title="Diary">
+        <i class="fas fa-book"></i> 
+    </a>
+    <a href="prayer.html" class="nav-item" title="Prayer">
+        <i class="fas fa-praying-hands"></i> 
+    </a>
+</div>
+
+    <div class="container">
+        <iframe src="https://giphy.com/embed/515bRPMJLlfxZOhx6T" width="200" height="200" style="" frameBorder="0" class="giphy-embed" allowFullScreen></iframe><p><a href="https://giphy.com/stickers/flowers-spring-frhling-515bRPMJLlfxZOhx6T"></a></p>
+        <h1>Upcoming Events</h1>
+<div style=" border: 2px solid crimson; /* Change the color and thickness as needed */
+    padding: 20px; /* Add padding inside the container */
+    border-radius: 8px; /* Optional: rounded corners */
+    /* Other styles */">
+        <div class="event-card">
+            <h2 class="event-title">Community Gathering</h2>
+            <p class="event-date">Date: June 15, 2023 | Time: 6:00 PM</p>
+            <p class="event-description">Join us for a community gathering at the park. Enjoy food, games, and great company!</p>
+            <button class="rsvp-button">RSVP</button>
+        </div>
+</div>
+<div style=" border: 2px solid crimson; /* Change the color and thickness as needed */
+    padding: 20px; /* Add padding inside the container */
+    border-radius: 8px; /* Optional: rounded corners */
+    /* Other styles */">
+        <div class="event-card">
+            <h2 class="event-title">Community Gathering</h2>
+            <p class="event-date">Date: June 15, 2023 | Time: 6:00 PM</p>
+            <p class="event-description">Join us for a community gathering at the park. Enjoy food, games, and great company!</p>
+            <button class="rsvp-button">RSVP</button>
+        </div>
+</div>
+        <!-- Add more events as needed -->
+    </div>
+<footer style="text-align: center; padding: 10px; background-color: rgb(236, 27, 69); position: fixed; bottom: 0; left: 0; width: 100%; z-index: 1000;">
+    <p>&copy; 2025 Novel Nexuss. All rights reserved.</p>
+</footer>
+</body>
+</html>

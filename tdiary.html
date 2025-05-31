@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Daily Secrets</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #f8f9fa;
+            display: flex;
+        }
+        .navbar {
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: center;
+            background-color: #000;
+            padding: 15px;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            width: 100px;
+            height: 100vh;
+        }
+        .nav-item {
+            color: white;
+            text-decoration: none;
+            text-align: center;
+            padding: 10px;
+            font-size: 24px;
+            transition: color 0.3s;
+            width: 100%;
+        }
+        .nav-item:hover {
+            color: #ccc;
+        }
+        .container {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+            margin: 20px;
+            width: 800px;
+            max-width: 2000px;
+            margin-left: 20px; /* Adjust for navbar width */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .header {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+        .item-container {
+            margin-bottom: 20px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        .secret-display {
+            max-height: 300px;
+            overflow-y: auto;
+            margin-bottom: 10px;
+        }
+        .secret-item {
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            padding: 10px;
+            margin-bottom: 10px;
+            background-color: #f1f1f1;
+        }
+        .secret-input {
+            display: flex;
+            margin-bottom: 10px;
+        }
+        .secret-input input {
+            flex: 1;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            margin-right: 5px;
+        }
+        .secret-input button {
+            padding: 10px;
+            background-color: purple;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .secret-input button:hover {
+            background-color: #5a2d7b;
+        }
+        /* Popup styles */
+        .modal {
+            display: none; 
+            position: fixed; 
+            z-index: 1000; 
+            left: 0;
+            top: 0;
+            width: 100%; 
+            height: 100%; 
+            background-color: rgba(0,0,0,0.5);
+        }
+        .modal-content {
+            background-color: white;
+            margin: 15% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%; 
+            max-width: 500px;
+            border-radius: 8px;
+        }
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+        /* Right sidebar styles */
+        .social-navbar {
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: center;
+            background-color: purple;
+            padding: 15px;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            width: 100px;
+            height: 100vh;
+            margin-left: auto; /* Align to the right */
+        }
+        .social-nav-item {
+            color: white;
+            text-decoration: none;
+            text-align: center;
+            padding: 10px;
+            font-size: 24px;
+            transition: color 0.3s;
+        }
+        .social-nav-item:hover {
+            color: #ccc;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="navbar">
+        <a href="dashboard.html" class="nav-item" title="Dashboard">
+            <i class="fas fa-tachometer-alt"></i> 
+        </a>
+        <a href="stories.html" class="nav-item" title="Stories">
+            <i class="fas fa-book-open"></i> 
+        </a>
+        <a href="publish.html" class="nav-item" title="Posts">
+            <i class="fas fa-file-alt"></i> 
+        </a>
+        <a href="tdiary.html" class="nav-item" title="Diary">
+            <i class="fas fa-book"></i> 
+        </a>
+        <a href="prayer.html" class="nav-item" title="Prayer">
+            <i class="fas fa-praying-hands"></i> 
+        </a>
+        <a href="store.html" class="nav-item" title="Store">
+            <i class="fas fa-store"></i> 
+        </a>
+        <a href="event.html" class="nav-item" title="Events">
+            <i class="fas fa-calendar-alt"></i> 
+        </a>
+    </div>
+
+    <div class="container">
+        <iframe src="https://giphy.com/embed/xzYQYJIYTtHNlfECPB" width="280" height="200" frameBorder="0" class="giphy-embed" allowFullScreen></iframe>
+        <div class="secret-input">
+            <input type="text" id="secretInput" placeholder="Write your secret...">
+            <button onclick="saveSecret()">Save</button>
+        </div>
+        <h2>Dear Diary</h2>
+        <div class="secret-display" id="secretDisplay"></div>
+        <iframe src="https://giphy.com/embed/nF1stI7zLYv1iRSZzy" width="90" height="90" frameBorder="0" class="giphy-embed" allowFullScreen></iframe>
+    </div>
+
+    <div class="social-navbar">
+        <a href="https://www.instagram.com" class="social-nav-item" title="Instagram">
+            <i class="fab fa-instagram"></i>
+        </a>
+        <a href="https://www.facebook.com" class="social-nav-item" title="Facebook">
+            <i class="fab fa-facebook"></i>
+        </a>
+        <a href="https://www.tiktok.com" class="social-nav-item" title="TikTok">
+            <i class="fab fa-tiktok"></i>
+        </a>
+        <a href="https://www.pinterest.com" class="social-nav-item" title="Pinterest">
+            <i class="fab fa-pinterest"></i>
+        </a>
+        <a href="https://twitter.com" class="social-nav-item" title="X (Twitter)">
+            <i class="fab fa-twitter"></i>
+        </a>
+    </div>
+
+    <div id="secretModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <h2 id="modalTitle"></h2>
+            <p id="modalSecret"></p>
+        </div>
+    </div>
+
+    <script>
+        const SHEET_ID = 'YOUR_SHEET_ID'; // Replace with your Google Sheet ID
+        const API_KEY = 'YOUR_API_KEY'; // Replace with your Google API key
+        const RANGE = 'Secrets!A:C'; // Adjust based on your sheet name and columns
+
+        // Load secrets on page load
+        window.onload = function() {
+            loadSecrets();
+        };
+
+        function loadSecrets() {
+            fetch(`https://sheets.googleapis.com/v4/spreadsheets/${SHEET_ID}/values/${RANGE}?key=${API_KEY}`)
+                .then(response => response.json())
+                .then(data => {
+                    const secretDisplay = document.getElementById('secretDisplay');
+                    secretDisplay.innerHTML = '';
+                    const secrets = data.values || [];
+                    secrets.forEach(secret => {
+                        const dateTime = secret[0];
+                        const title = secret[1];
+                        const text = secret[2];
+                        const secretItem = document.createElement('div');
+                        secretItem.className = 'secret-item';
+                        const titleElement = document.createElement('span');
+                        titleElement.textContent = title;
+                        titleElement.style.cursor = 'pointer';
+                        titleElement.style.color = 'purple';
+                        titleElement.onclick = () => showModal(title, text);
+                        secretItem.appendChild(titleElement);
+                        secretItem.appendChild(document.createTextNode(` (${dateTime})`));
+                        secretDisplay.appendChild(secretItem);
+                    });
+                });
+        }
+
+        function saveSecret() {
+            const input = document.getElementById('secretInput');
+            const title = prompt("Enter a title for your secret:");
+            const secret = input.value.trim();
+            const now = new Date();
+            const date = now.toLocaleDateString();
+            const time = now.toLocaleTimeString();
+
+            if (title && secret) {
+                const values = [[`${date} ${time}`, title, secret]];
+
+                fetch(`https://sheets.googleapis.com/v4/spreadsheets/${SHEET_ID}/values/${RANGE}:append?valueInputOption=RAW&key=${API_KEY}`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ values }),
+                }).then(() => {
+                    // Display the secret immediately
+                    const secretDisplay = document.getElementById('secretDisplay');
+                    const secretItem = document.createElement('div');
+                    secretItem.className = 'secret-item';
+                    const titleElement = document.createElement('span');
+                    titleElement.textContent = title;
+                    titleElement.style.cursor = 'pointer';
+                    titleElement.style.color = 'purple';
+                    titleElement.onclick = () => showModal(title, secret);
+                    secretItem.appendChild(titleElement);
+                    secretItem.appendChild(document.createTextNode(` (${date} ${time})`));
+                    secretDisplay.appendChild(secretItem);
+
+                    input.value = ''; // Clear the input
+                }).catch(error => {
+                    console.error("Error saving secret: ", error);
+                    alert("Failed to save secret. Please try again.");
+                });
+            } else {
+                alert("Title and secret cannot be empty!");
+            }
+        }
+
+        function showModal(title, secret) {
+            document.getElementById('modalTitle').textContent = title;
+            document.getElementById('modalSecret').textContent = secret;
+            document.getElementById('secretModal').style.display = 'block';
+        }
+
+        function closeModal() {
+            document.getElementById('secretModal').style.display = 'none';
+        }
+    </script>
+    <footer style="text-align: center; padding: 10px; background-color: rgb(236, 27, 69); position: fixed; bottom: 0; left: 0; width: 100%; z-index: 1000;">
+        <p>&copy; 2025 Novel Nexuss. All rights reserved.</p>
+    </footer>
+</body>
+</html>

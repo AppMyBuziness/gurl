@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stories</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #f8f9fa;
+            display: flex; /* Use flexbox for layout */
+        }
+        .navbar {
+            display: flex;
+            flex-direction: column; /* Arrange items vertically */
+            justify-content: flex-start; /* Align to the top */
+            align-items: center; /* Center items horizontally */
+            background-color: #000;
+            padding: 15px; /* Add padding */
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            width: 100px; /* Set a fixed width for the navbar */
+            height: 100vh; /* Full height */
+        }
+        .nav-item {
+            color: white;
+            text-decoration: none;
+            text-align: center;
+            padding: 10px; /* Add padding around icons */
+            font-size: 24px; /* Adjust icon size */
+            transition: color 0.3s;
+            width: 100%; /* Make icons full-width */
+        }
+        .nav-item:hover {
+            color: #ccc; /* Change color on hover */
+        }
+        .story-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+            max-width: 800px;
+            margin: auto;
+        }
+        .story {
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            margin: 10px;
+            width: 100%;
+            word-wrap: break-word; /* Ensures long words break within the container */
+            word-break: break-word; /* Ensures no overflow from long words */
+            overflow: hidden; /* Prevents overflow of text or content */
+        }
+        .story-actions {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 10px;
+        }
+        .story-action-button {
+            background-color: transparent; /* Make background transparent */
+            border: none; /* Remove border */
+            border-radius: 5px; /* Optional: add some rounding to the corners */
+            cursor: pointer;
+            color: black;
+            font-size: 14px;
+            padding: 10px 15px;
+            display: flex;
+            align-items: center;
+            transition: background-color 0.3s, color 0.3s;
+        }
+        .story-action-button:hover {
+            background-color: #000; /* Change background on hover */
+            color: white; /* Change text color on hover */
+        }
+        .publisher {
+            font-size: 0.9em;
+            color: #555;
+            display: flex;
+            align-items: center;
+        }
+        .profile-picture {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            margin-right: 8px;
+        }
+        .profile-link {
+            text-decoration: none;
+            color: #007bff;
+        }
+        .search-bar {
+            position: fixed; /* Fixes the position */
+            top: 20px; /* Distance from the top */
+            left: 50%; /* Center it horizontally */
+            transform: translateX(-50%); /* Adjust to center */
+            width: 50%; /* Full width with a max limit */
+            max-width: 400px; /* Maximum width */
+            padding: 10px; /* Padding for aesthetics */
+            border: 1px solid #ccc; /* Border color */
+            border-radius: 5px; /* Rounded corners */
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Subtle shadow effect */
+            transition: border-color 0.3s; /* Smooth border color transition */
+            z-index: 1000; /* Ensure it stays above other elements */
+        }
+        .modal {
+            display: none; /* Hidden by default */
+            position: fixed; /* Stay in place */
+            z-index: 1; /* Sit on top */
+            left: 0;
+            top: 0;
+            width: 100%; /* Full width */
+            height: 100%; /* Full height */
+            overflow: auto; /* Enable scroll if needed */
+            background-color: rgba(0, 0, 0, 0.5); /* Dark background with opacity */
+        }
+        .modal-content {
+            background-color: #fefefe;
+            margin: 10% auto; /* Center the modal */
+            padding: 15px; /* Reduced padding */
+            border: 1px solid #888;
+            border-radius: 8px; /* Rounded corners */
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2); /* Subtle shadow */
+            max-width: 400px; /* Reduced maximum width */
+            width: 80%; /* Responsive width */
+            animation: fadeIn 0.3s; /* Fade-in animation */
+        }
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 24px; /* Slightly smaller close button */
+            font-weight: bold;
+        }
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+        /* Animation for modal */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        /* Styles for user profile data */
+        #userProfileData {
+            display: flex;
+            flex-direction: column;
+            align-items: center; /* Center items */
+            text-align: center; /* Center text */
+        }
+        #userProfileData img {
+            border-radius: 50%; /* Circular profile picture */
+            width: 30px; /* Adjusted width for the image */
+            height: 30px; /* Adjusted height for the image */
+            margin-bottom: 10px; /* Space below the image */
+        }
+        #userProfileData p {
+            margin: 6px 0; /* Reduced space between paragraphs */
+            font-size: 14px; /* Slightly smaller font size */
+            color: #333; /* Dark gray text color */
+        }
+        .profile-picture-container {
+            width: 40px; /* Fixed width */
+            height: 40px; /* Fixed height */
+            overflow: hidden; /* Hide overflow */
+            border-radius: 50%; /* Make it circular */
+            display: flex;
+            justify-content: center; /* Center the image */
+            align-items: center; /* Center the image */
+        }
+        .profile-picture-container img {
+            width: 100%; /* Fill the container */
+            height: 100%; /* Fill the container */
+            object-fit: cover; /* Maintain aspect ratio and cover */
+        }
+        /* Right sidebar styles */
+        .social-navbar {
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: center;
+            background-color: purple;
+            padding: 15px;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            width: 100px;
+            height: 100vh;
+            margin-left: auto; /* Align to the right */
+        }
+        .social-nav-item {
+            color: white;
+            text-decoration: none;
+            text-align: center;
+            padding: 10px;
+            font-size: 24px;
+            transition: color 0.3s;
+        }
+        .social-nav-item:hover {
+            color: #ccc;
+        }
+    </style>
+</head>
+<body>
+   <div class="navbar">
+       <a href="dashboard.html" class="nav-item" title="Dashboard">
+            <i class="fas fa-tachometer-alt"></i> 
+        </a>
+        <a href="store.html" class="nav-item" title="Store">
+            <i class="fas fa-store"></i> 
+        </a>
+        <a href="event.html" class="nav-item" title="Events">
+            <i class="fas fa-calendar-alt"></i> 
+        </a>
+        <a href="stories.html" class="nav-item" title="Stories">
+            <i class="fas fa-book-open"></i> 
+        </a>
+        <a href="publish.html" class="nav-item" title="Posts">
+            <i class="fas fa-file-alt"></i> 
+        </a>
+        <a href="tdiary.html" class="nav-item" title="Diary">
+            <i class="fas fa-book"></i> 
+        </a>
+        <a href="prayer.html" class="nav-item" title="Prayer">
+            <i class="fas fa-praying-hands"></i> 
+        </a>
+    </div>
+
+    <iframe src="https://giphy.com/embed/L2braZDMoawm4NmCsy" width="200" height="200" frameBorder="0" class="giphy-embed" allowFullScreen></iframe>
+    
+    <div id="userProfileModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <div id="userProfileData">
+                <!-- User data will be populated here -->
+            </div>
+        </div>
+    </div>
+
+    <input type="text" id="searchInput" class="search-bar" placeholder="Search by username or story title" oninput="filterStories()">
+    
+    <div class="story-container" id="storyList">
+        <h2>Published Stories</h2>
+        <!-- Stories will be populated here -->
+    </div>
+
+    <script src="script.js"></script>
+
+    <script>
+        let likedStories = new Set(JSON.parse(localStorage.getItem('likedStories')) || []); // Load liked stories from local storage
+
+        document.addEventListener('DOMContentLoaded', loadAllStories);
+
+        function loadAllStories() {
+            const storyList = document.getElementById('storyList');
+            storyList.innerHTML = '<h2>Published Stories</h2>';
+
+            fetch('api.php', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                body: new URLSearchParams({
+                    action: 'loadAllStories',
+                }),
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    data.stories.forEach(story => {
+                        const storyDiv = document.createElement('div');
+                        storyDiv.classList.add('story');
+                        storyDiv.innerHTML = `
+                            <div class="publisher">
+                                <div class="profile-picture-container">
+                                    <img src="${story.profile_picture || 'https://via.placeholder.com/30'}" alt="${story.username}'s profile picture" class="profile-picture">
+                                </div>
+                                <a href="javascript:void(0)" class="profile-link" onclick="showUserProfileByUsername('${story.username}')">${story.username || 'Unknown'}</a>
+                                <span class="timestamp">${new Date(story.createdAt).toLocaleString()}</span>
+                            </div>
+                            <h3>${story.title}</h3>
+                            <p>${story.content}</p>
+                            <p>Likes: <span class="like-count" id="like-count-${story.id}">${story.likes || 0}</span></p>
+                            <div class="story-actions">
+                                <button class="story-action-button like-button" onclick="likeStory(${story.id})" id="like-button-${story.id}" ${likedStories.has(story.id) ? 'disabled' : ''}>
+                                    <i class="fas fa-thumbs-up"></i>
+                                </button>
+                                <button class="story-action-button report-button" onclick="reportStory(${story.id})">
+                                    <i class="fas fa-flag"></i> Report
+                                </button>
+                            </div>
+                        `;
+                        storyList.appendChild(storyDiv);
+                    });
+                } else {
+                    console.error('Error loading stories:', data.message);
+                }
+            })
+            .catch(error => {
+                console.error('Error loading stories:', error);
+            });
+        }
+
+        function showUserProfileByUsername(username) {
+            fetch(`api.php?action=loadUserByUsername&username=${encodeURIComponent(username)}`)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.id) { // Check if the data has a valid user ID
+                        const userProfileData = `
+                            <div class="profile-picture-container">
+                                <img src="${data.profile_picture || 'https://via.placeholder.com/100'}" alt="${data.username}'s profile picture">
+                            </div>
+                            <p><strong>Username:</strong> ${data.username}</p>
+                            <p><strong>Email:</strong> ${data.email}</p>
+                            <p><strong>Biography:</strong> ${data.biography || 'N/A'}</p>
+                            <p><strong>Pronoun:</strong> ${data.pronoun || 'N/A'}</p>
+                        `;
+                        document.getElementById('userProfileData').innerHTML = userProfileData;
+                        document.getElementById('userProfileModal').style.display = 'block'; // Show modal here
+                    } else {
+                        alert('User not found.');
+                        closeModal(); // Hides the modal if user not found
+                    }
+                })
+                .catch(error => {
+                    console.error('Error fetching user profile:', error);
+                    alert('An error occurred while fetching user data.');
+                    closeModal(); // Hides the modal on error
+                });
+        }
+
+        function closeModal() {
+            document.getElementById('userProfileModal').style.display = 'none'; // Hide the modal
+        }
+
+        function filterStories() {
+            const input = document.getElementById('searchInput').value.toLowerCase();
+            const stories = document.querySelectorAll('.story');
+
+            stories.forEach(story => {
+                const title = story.querySelector('h3').textContent.toLowerCase();
+                const publisher = story.querySelector('.profile-link').textContent.toLowerCase();
+
+                if (title.includes(input) || publisher.includes(input)) {
+                    story.style.display = ''; // Show the story
+                } else {
+                    story.style.display = 'none'; // Hide the story
+                }
+            });
+        }
+
+        function likeStory(storyId) {
+            if (likedStories.has(storyId)) {
+                alert('You have already liked this story.');
+                return;
+            }
+
+            fetch('api.php', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                body: new URLSearchParams({
+                    action: 'likeStory',
+                    storyId: storyId,
+                }),
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    likedStories.add(storyId);
+                    localStorage.setItem('likedStories', JSON.stringify(Array.from(likedStories))); // Save to local storage
+                    const likeCountElement = document.getElementById(`like-count-${storyId}`);
+                    likeCountElement.textContent = data.newLikeCount; // Update the like count
+                    const likeButton = document.getElementById(`like-button-${storyId}`);
+                    likeButton.disabled = true; // Disable the like button after liking
+                } else {
+                    console.error('Error liking story:', data.message);
+                }
+            })
+            .catch(error => {
+                console.error('Error liking story:', error);
+            });
+        }
+
+        function reportStory(storyId) {
+            fetch('api.php', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                body: new URLSearchParams({
+                    action: 'reportStory',
+                    storyId: storyId,
+                    userId: currentUserId, // Replace with the actual current user's ID
+                }),
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    alert('Story reported successfully!');
+                } else {
+                    console.error('Error reporting story:', data.message);
+                }
+            })
+            .catch(error => {
+                console.error('Error reporting story:', error);
+            });
+        }
+
+        function copyLink(link) {
+            navigator.clipboard.writeText(link).then(() => {
+                alert('Link copied to clipboard!');
+            }).catch(err => {
+                console.error('Could not copy link: ', err);
+            });
+        }
+    </script>
+    
+    <div class="social-navbar">
+        <a href="https://www.instagram.com" class="social-nav-item" title="Instagram">
+            <i class="fab fa-instagram"></i>
+        </a>
+        <a href="https://www.facebook.com" class="social-nav-item" title="Facebook">
+            <i class="fab fa-facebook"></i>
+        </a>
+        <a href="https://www.tiktok.com" class="social-nav-item" title="TikTok">
+            <i class="fab fa-tiktok"></i>
+        </a>
+        <a href="https://www.pinterest.com" class="social-nav-item" title="Pinterest">
+            <i class="fab fa-pinterest"></i>
+        </a>
+        <a href="https://twitter.com" class="social-nav-item" title="X (Twitter)">
+            <i class="fab fa-twitter"></i>
+        </a>
+    </div>
+
+    <footer style="text-align: center; padding: 10px; background-color: rgb(236, 27, 69); position: fixed; bottom: 0; left: 0; width: 100%; z-index: 1000;">
+        <p>&copy; 2025 Novel Nexuss. All rights reserved.</p>
+    </footer>
+</body>
+</html>

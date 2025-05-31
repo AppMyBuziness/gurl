@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Distress Page</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #121212;
+            color: #ffffff;
+            margin: 0;
+            padding: 20px;
+            text-align: center;
+        }
+        h1 {
+            color: #8e44ad;
+            margin-bottom: 20px;
+        }
+        h2 {
+            color: #9b59b6;
+            margin: 20px 0;
+        }
+        .container {
+            display: inline-block;
+            margin: 20px;
+            border: 2px solid #8e44ad;
+            border-radius: 10px;
+            background-color: #2c2c2c;
+            padding: 20px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+            max-width: 300px;
+        }
+        .slideshow {
+            display: none;
+        }
+        .active {
+            display: block;
+        }
+        .slide {
+            font-size: 1.2em;
+            color: #ffffff;
+        }
+        .video {
+            margin: 20px 0;
+            max-width: 100%;
+            border: 2px solid #8e44ad;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+        .button {
+            background-color: #8e44ad;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            text-decoration: none;
+            margin: 10px;
+            display: inline-block;
+            transition: background-color 0.3s;
+        }
+        .button:hover {
+            background-color: #732d91;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Welcome to Your Distress Page</h1>
+    <p>Take a moment for yourself.</p>
+
+    <h2>Games</h2>
+    <a class="button" href="https://www.jigsawplanet.com/" target="_blank">Play a Jigsaw Puzzle</a>
+
+    <div class="container">
+        <h2>Affirmations</h2>
+        <div class="slideshow active" id="affirmationSlideshow">
+            <div class="slide">You are enough.</div>
+            <div class="slide">You are loved.</div>
+            <div class="slide">Every day is a new beginning.</div>
+            <div class="slide">You have the power to change.</div>
+            <div class="slide">Your feelings are valid.</div>
+        </div>
+    </div>
+
+    <div class="container">
+        <h2>Bible Verses</h2>
+        <div class="slideshow active" id="verseSlideshow">
+            <div class="slide">Philippians 4:13 - I can do all things through Christ who strengthens me.</div>
+            <div class="slide">Isaiah 41:10 - Fear not, for I am with you.</div>
+            <div class="slide">Psalm 23:4 - Even though I walk through the darkest valley, I will fear no evil.</div>
+            <div class="slide">Romans 15:13 - May the God of hope fill you with all joy and peace.</div>
+            <div class="slide">Matthew 11:28 - Come to me, all you who are weary and burdened, and I will give you rest.</div>
+        </div>
+    </div>
+
+    <h2>Short Videos</h2>
+    <div class="video">
+        <iframe width="560" height="315" src="https://www.youtube.com/embed/dQw4w9WgXcQ" frameborder="0" allowfullscreen></iframe>
+    </div>
+
+    <script>
+        let affirmationIndex = 0;
+        let verseIndex = 0;
+
+        function showSlides(slideshowId, index) {
+            const slides = document.querySelectorAll(`#${slideshowId} .slide`);
+            slides.forEach(slide => slide.classList.remove('active'));
+            slides[index].classList.add('active');
+        }
+
+        function startSlideshow(slideshowId, interval) {
+            setInterval(() => {
+                if (slideshowId === 'affirmationSlideshow') {
+                    affirmationIndex = (affirmationIndex + 1) % document.querySelectorAll('#affirmationSlideshow .slide').length;
+                    showSlides(slideshowId, affirmationIndex);
+                } else {
+                    verseIndex = (verseIndex + 1) % document.querySelectorAll('#verseSlideshow .slide').length;
+                    showSlides(slideshowId, verseIndex);
+                }
+            }, interval);
+        }
+
+        // Start the slideshows
+        startSlideshow('affirmationSlideshow', 3000);
+        startSlideshow('verseSlideshow', 5000);
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <title>Store</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #f8f9fa;
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            background-color: #000;
+            padding: 15px 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .nav-item {
+            color: white;
+            text-decoration: none;
+            text-align: center;
+            transition: color 0.3s;
+        }
+
+        .nav-item:hover {
+            color: #ccc;
+        }
+
+        .book-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            max-width: 800px;
+            margin: auto;
+            padding: 20px;
+        }
+
+        .book {
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            margin: 10px;
+            padding: 20px;
+            width: calc(30% - 20px);
+            position: relative;
+        }
+
+        .book img {
+            max-width: 100%;
+            height: auto;
+        }
+
+        .button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 10px;
+            display: block;
+        }
+
+        .button:hover {
+            background-color: #0056b3;
+        }
+
+        .countdown {
+            color: red;
+            font-weight: bold;
+            margin-top: 10px;
+        }
+
+        /* Modal styles */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.7);
+        }
+
+        .modal-content {
+            background-color: #fefefe;
+            margin: 15% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+        }
+
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+        .book-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px; /* Space between header and book details */
+}
+
+.profile-picture-container {
+    width: 20px;
+    height: 20px;
+    overflow: hidden;
+}
+
+.profile-picture {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.username {
+    font-weight: bold; /* Optional: make username bold */
+}
+    </style>
+</head>
+
+<body>
+<div class="navbar">
+    <a href="dashboard.html" class="nav-item" title="Dashboard">
+        <i class="fas fa-tachometer-alt"></i> 
+    </a>
+    <a href="store.html" class="nav-item" title="Store">
+        <i class="fas fa-store"></i> 
+    </a>
+    <a href="event.html" class="nav-item" title="Events">
+        <i class="fas fa-calendar-alt"></i> 
+    </a>
+    <a href="stories.html" class="nav-item" title="Stories">
+        <i class="fas fa-book-open"></i> 
+    </a>
+    <a href="publish.html" class="nav-item" title="Posts">
+        <i class="fas fa-file-alt"></i> 
+    </a>
+    <a href="tdiary.html" class="nav-item" title="Diary">
+        <i class="fas fa-book"></i> 
+    </a>
+    <a href="prayer.html" class="nav-item" title="Prayer">
+        <i class="fas fa-praying-hands"></i> 
+    </a>
+</div>
+
+    <iframe src="https://giphy.com/embed/C9FZmX6mwSGceP0nWb" width="200" height="200" style="" frameBorder="0" class="giphy-embed" allowFullScreen></iframe><p><a href="https://giphy.com/gifs/bunny-buy-bunnyismoving-C9FZmX6mwSGceP0nWb"></a></p>
+        <div class="book-container" id="bookContainer"></div>
+
+        <!-- Modal for book backstory -->
+        <div id="bookModal" class="modal">
+            <div class="modal-content">
+                <span class="close" onclick="closeModal()">&times;</span>
+                <h2 id="modalTitle"></h2>
+                <p id="modalBackstory"></p>
+            </div>
+        </div>
+        
+        <script>
+
+function loadBooksForSale() {
+    const bookContainer = document.getElementById('bookContainer');
+    bookContainer.innerHTML = '';
+
+    fetch('api.php', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        body: new URLSearchParams({
+            action: 'loadBooksForSale',
+        }),
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            data.books.forEach(book => {
+                const bookDiv = document.createElement('div');
+                bookDiv.classList.add('book');
+
+                const borrowButton = book.borrowedUntil && new Date() < new Date(book.borrowedUntil) ?
+                    `<button class="button" disabled>Borrow (Unavailable)</button>` :
+                    `<button class="button" onclick="borrowBook('${book.id}', '${book.title}')">Borrow</button>`;
+
+                const countdownDisplay = book.borrowedUntil ?
+                    `<div class="countdown" id="countdown-${book.title}"></div>` :
+                    '';
+
+                bookDiv.innerHTML = `
+                    <div class="book-header">
+                        <div class="profile-picture-container">
+                            <img src="${book.publisherProfilePic || ''}" alt="${book.publisherUsername || 'Unknown'}'s profile picture" class="profile-picture">
+                        </div>
+                        <span class="username">${book.publisherUsername || 'Unknown'}</span>
+                    </div>
+                    <img src="${book.cover}" alt="Book Cover" class="book-cover">
+                    <h3 onclick="showModal('${book.title}', '${book.backstory}')">${book.title}</h3>
+                    <p>Genre: ${book.genre}</p>
+                    <p>Price: $${book.price}</p>
+                    <p>Borrowed Count: ${book.borrowedCount || 0}</p>
+                    ${borrowButton}
+                    <button class="button" onclick="buyBook('${book.id}', '${book.title}', '${book.publisherUsername}', '${book.publisherProfilePic}', '${book.whatsappNumber}')">Buy</button>
+                    ${countdownDisplay}
+                `;
+
+                bookContainer.appendChild(bookDiv);
+
+                if (book.borrowedUntil) {
+                    startCountdown(book.title, new Date(book.borrowedUntil));
+                }
+            });
+        } else {
+            console.error('Error loading books for sale:', data.message);
+        }
+    })
+    .catch(error => {
+        console.error('Error loading books for sale:', error);
+    });
+}
+
+function showModal(title, backstory) {
+    document.getElementById('modalTitle').innerText = title;
+    document.getElementById('modalBackstory').innerText = backstory;
+    document.getElementById('bookModal').style.display = 'block';
+}
+
+function closeModal() {
+    document.getElementById('bookModal').style.display = 'none';
+}
+
+function startCountdown(title, endDate) {
+    const countdownElement = document.getElementById(`countdown-${title}`);
+    const timer = setInterval(() => {
+        const now = new Date();
+        const remainingTime = endDate - now;
+        if (remainingTime <= 0) {
+            clearInterval(timer);
+            countdownElement.innerHTML = "Available to borrow!";
+            loadBooksForSale();
+        } else {
+            const seconds = Math.floor(remainingTime / 1000);
+            const minutes = Math.floor(seconds / 60);
+            const hours = Math.floor(minutes / 60);
+            const days = Math.floor(hours / 24);
+
+            countdownElement.innerHTML = `Available in ${days} day(s), ${hours % 24} hour(s), ${minutes % 60} minute(s), ${seconds % 60} second(s)`;
+        }
+    }, 1000);
+}
+
+function borrowBook(bookId, title) {
+    fetch('api.php', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        body: new URLSearchParams({
+            action: 'borrowBook',
+            bookId: bookId,
+        }),
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            alert(`You have borrowed "${title}". It will be available again in 7 days.`);
+            loadBooksForSale();
+        } else {
+            alert(data.message);
+        }
+    })
+    .catch(error => {
+        console.error('Error borrowing book:', error);
+    });
+}
+
+function buyBook(bookId, title, sellerUsername, sellerProfilePic, whatsappNumber) {
+    // Save buyer's info to the database (if needed)
+    fetch('api.php', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        body: new URLSearchParams({
+            action: 'saveBuyerInfo',
+            bookId: bookId,
+            sellerUsername: sellerUsername,
+            sellerProfilePic: sellerProfilePic,
+            whatsappNumber: whatsappNumber,
+        }),
+    }).then(() => {
+        // Redirect to WhatsApp with a predefined message
+        const message = encodeURIComponent(`I want to buy the book "${title}".`);
+        const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${message}`;
+        window.open(whatsappUrl, '_blank');
+    }).catch(error => {
+        console.error('Error saving buyer info:', error);
+    });
+}
+
+// Load books on page load
+window.onload = loadBooksForSale;
+
+        </script>
+        <footer style="text-align: center; padding: 10px; background-color: rgb(236, 27, 69); position: fixed; bottom: 0; left: 0; width: 100%; z-index: 1000;">
+    <p>&copy; 2025 Novel Nexuss. All rights reserved.</p>
+</footer>
+</body>
+</html>

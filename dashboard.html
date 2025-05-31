@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Dashboard</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #f8f9fa;
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            background-color: #000;
+            padding: 15px 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .nav-item {
+            color: white;
+            text-decoration: none;
+            text-align: center;
+            transition: color 0.3s;
+        }
+
+        .nav-item:hover {
+            color: #ccc;
+        }
+
+        .dashboard-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+            max-width: 1200px;
+            margin: 0;
+        }
+
+        .profile {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            width: 100%;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .profile img {
+            border-radius: 50%;
+            width: 80px;
+            height: 80px;
+        }
+
+        .chat-icon {
+            cursor: pointer;
+            font-size: 24px;
+            margin-top: 10px;
+        }
+
+        .popup {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: #fff;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .popup-content {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            width: 400px;
+            text-align: center;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .close {
+            cursor: pointer;
+            color: #dc3545;
+            font-size: 20px;
+            float: right;
+        }
+
+        .action-button {
+            background-color: black; /* Set buttons to black */
+            color: white;
+            border: none;
+            padding: 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.3s;
+            width: 100%;
+            max-width: 150px;
+            margin-top: 10px;
+        }
+
+        .action-button:hover {
+            background-color: #444; /* Darker shade on hover */
+        }
+
+        .totals {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            width: 100%;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .prayer-container {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            padding: 10px;
+            margin: 10px 0;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .prayer-text {
+            flex: 1;
+            margin-right: 10px;
+        }
+
+        .prayer-date {
+            font-size: 0.8em;
+            color: #888;
+        }
+
+        textarea {
+            width: 100%;
+            height: 80px;
+            border-radius: 5px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            resize: none;
+        }
+    </style>
+</head>
+
+<body>
+
+   <div class="navbar">
+    <img style="width: 2cm; height: 2cm;" src="C:\Users\DELL\Desktop\public\WhatsApp Image 2024-12-20 at 04.58.52.jpeg" alt="Profile Image">
+    <a href="dashboard.html" class="nav-item" title="Dashboard">
+        <i class="fas fa-tachometer-alt"></i> 
+    </a>
+    <a href="store.html" class="nav-item" title="Store">
+        <i class="fas fa-store"></i> 
+    </a>
+    <a href="event.html" class="nav-item" title="Events">
+        <i class="fas fa-calendar-alt"></i> 
+    </a>
+    <a href="stories.html" class="nav-item" title="Stories">
+        <i class="fas fa-book-open"></i> 
+    </a>
+    <a href="publish.html" class="nav-item" title="Posts">
+        <i class="fas fa-file-alt"></i> 
+    </a>
+    <a href="tdiary.html" class="nav-item" title="Diary">
+        <i class="fas fa-book"></i> 
+    </a>
+    <a href="prayer.html" class="nav-item" title="Prayer">
+        <i class="fas fa-praying-hands"></i> 
+    </a>
+</div>
+
+    <div class="dashboard-container">
+        <div class="profile">
+            <img id="profilePicture" src="https://via.placeholder.com/100" alt="User Profile Picture">
+            <h2 id="displayUsername">Username</h2>
+            <p id="displayEmail">Email: user@example.com</p>
+            <p id="displayBio">Biography: A brief biography about the user goes here.</p>
+            <p id="displayPronoun">Pronoun: He/Him</p>
+            <div class="totals">
+                <h2>Dashboard Totals</h2>
+                <p>Total Likes on Stories: <span id="totalLikesStories">0</span></p>
+                <p>Total Likes on Books: <span id="totalLikesBooks">0</span></p>
+                <p>Total points <span id="totalpoints">0</span></p>
+            </div>
+        </div>
+    
+        <div class="chat-icon" onclick="showChatOptionsPopup()">
+            <i class="fas fa-comments"></i>
+        </div>
+        
+        <div class="action-buttons">
+            <button class="action-button" onclick="showEditProfilePopup()">Edit Profile</button>
+            <button class="action-button" onclick="showPublishBookPopup()">Publish Book</button>
+            <button class="action-button" onclick="showSellBookPopup()">Sell Book</button>
+            <button class="action-button" onclick="openPublishStoryPopup()">Publish Story</button>
+            <button class="action-button" onclick="showPrayerPopup()">Prayer</button>
+        </div>
+
+        <div id="prayerList" style="width: 100%; max-width: 600px;">
+            <!-- Prayers will be displayed here -->
+        </div>
+    </div>
+
+    <div id="chatOptionsPopup" class="popup">
+        <div class="popup-content">
+            <span class="close" onclick="closeChatOptionsPopup()">&times;</span>
+            <h3>Chat Options</h3>
+            <a href="chatroom.html"><button class="action-button"> Group Chat</button></a>
+            <button class="action-button" onclick="openGeneralChats()">General Chats</button>
+            <button class="action-button" onclick="openOneOnOneChats()">One-on-One Chats</button>
+        </div>
+    </div>
+
+    <!-- Edit Profile Popup -->
+    <div id="editProfilePopup" class="popup">
+        <div class="popup-content">
+            <span class="close" onclick="closeEditProfilePopup()">&times;</span>
+            <h3>Edit Profile</h3>
+            <input type="file" id="editProfilePicture" accept="image/*" onchange="previewProfilePicture()">
+            <img id="profilePicPreview" src="" alt="Profile Picture Preview" style="display:none; width: 100px; margin: 10px 0;">
+            <input type="text" id="editUsername" placeholder="Username" style="width: 100%; margin: 10px 0;">
+            <input type="email" id="editEmail" placeholder="Email" style="width: 100%; margin: 10px 0;">
+            <textarea id="editBio" placeholder="Biography" rows="4" style="width: 100%; margin: 10px 0;"></textarea>
+            <input type="text" id="editPronoun" placeholder="Pronoun" style="width: 100%; margin: 10px 0;">
+            <button class="action-button" onclick="saveProfile()">Save Changes</button>
+        </div>
+    </div>
+
+    <!-- Publish Book Popup -->
+    <div id="publishBookPopup" class="popup">
+        <div class="popup-content">
+            <span class="close" onclick="closePublishBookPopup()">&times;</span>
+            <h3>Publish Book</h3>
+            <input type="text" id="bookTitle" placeholder="Book Title" style="width: 100%; margin: 10px 0;">
+            <input type="text" id="bookGenre" placeholder="Genre" style="width: 100%; margin: 10px 0;">
+            <input type="file" id="bookCover" accept="image/*" onchange="previewCover()">
+            <img id="coverPreview" src="" alt="Cover Preview" style="display:none; width: 100px; margin: 10px 0;">
+            <input type="file" id="bookPDF" accept=".pdf" style="width: 100%; margin: 10px 0;">
+            <textarea id="bookBackstory" placeholder="Back Story" rows="4" style="width: 100%; margin: 10px 0;"></textarea>
+            <button class="action-button" onclick="publishBook()">Publish</button>
+        </div>
+    </div>
+
+    <!-- Sell Book Popup -->
+    <div id="sellBookPopup" class="popup">
+        <div class="popup-content">
+            <span class="close" onclick="closeSellBookPopup()">&times;</span>
+            <h3>Sell Book</h3>
+            <input type="text" id="sellBookTitle" placeholder="Book Title" style="width: 100%; margin: 10px 0;">
+            <input type="text" id="sellBookGenre" placeholder="Genre" style="width: 100%; margin: 10px 0;">
+            <input type="number" id="sellPrice" placeholder="Price" style="width: 100%; margin: 10px 0;">
+            <input type="file" id="sellBookCover" accept="image/*" onchange="previewSellCover()">
+            <img id="sellCoverPreview" src="" alt="Cover Preview" style="display:none; width: 100px; margin: 10px 0;">
+            <input type="file" id="sellBookPDF" accept=".pdf" style="width: 100%; margin: 10px 0;">
+            <textarea id="sellBackstory" placeholder="Back Story" rows="4" style="width: 100%; margin: 10px 0;"></textarea>
+            <input type="text" id="whatsappNumber" placeholder="WhatsApp Number (e.g. +123456789)" style="width: 100%; margin: 10px 0;">
+            <button class="action-button" onclick="sellBook()">Sell Book</button>
+        </div>
+    </div>
+
+    <!-- Backstory Popup -->
+    <div id="backstoryPopup" class="popup">
+        <div class="popup-content">
+            <span class="close" onclick="closeBackstoryPopup()">&times;</span>
+            <h3>Backstory</h3>
+            <p id="backstoryText"></p>
+        </div>
+    </div>
+
+    <!-- Prayer Popup -->
+    <div id="prayerPopup" class="popup">
+        <div class="popup-content">
+            <span class="close" onclick="closePrayerPopup()">&times;</span>
+            <h3>Submit Your Prayer</h3>
+            <textarea id="prayerInput" placeholder="Enter your prayer here..."></textarea>
+            <button class="action-button" onclick="submitPrayer()">Send Prayer</button>
+
+        </div>
+    </div>
+
+    <script>
+        let loggedInUser;
+
+        window.onload = function() {
+            loggedInUser = JSON.parse(sessionStorage.getItem('loggedInUser'));
+            if (loggedInUser) {
+                loadProfileData(loggedInUser);
+                loadPublishedContent(); // Call this to load content
+                calculateTotals(); 
+            }
+        };
+
+        function showEditProfilePopup() {
+            document.getElementById('editProfilePopup').style.display = 'flex'; // Show the popup
+        }
+
+        function closeEditProfilePopup() {
+            document.getElementById('editProfilePopup').style.display = 'none'; // Hide the popup
+        }
+
+        function saveProfile() {
+            const username = document.getElementById('editUsername').value || "Username";
+            const email = document.getElementById('editEmail').value || "user@example.com";
+            const biography = document.getElementById('editBio').value || "A brief biography about the user goes here.";
+            const pronoun = document.getElementById('editPronoun').value || "He/Him";
+            const profilePicture = document.getElementById('profilePicPreview').src || "https://via.placeholder.com/100";
+
+            loggedInUser.username = username;
+            loggedInUser.email = email;
+            loggedInUser.biography = biography;
+            loggedInUser.pronoun = pronoun;
+            loggedInUser.profilePicture = profilePicture;
+
+            sessionStorage.setItem('loggedInUser', JSON.stringify(loggedInUser));
+            localStorage.setItem('username', username);
+            localStorage.setItem('email', email);
+            localStorage.setItem('biography', biography);
+            localStorage.setItem('pronoun', pronoun);
+            localStorage.setItem('profilePicture', profilePicture);
+
+            alert("Profile updated successfully!");
+            closeEditProfilePopup(); // Close the profile edit popup
+        }
+
+        function loadProfileData(user) {
+            document.getElementById('displayUsername').innerText = user.username || "No username";
+            document.getElementById('displayEmail').innerText = "Email: " + (user.email || "No email");
+            document.getElementById('displayBio').innerText = "Biography: " + (user.biography || "No biography");
+            document.getElementById('displayPronoun').innerText = "Pronoun: " + (user.pronoun || "No pronoun");
+            document.getElementById('profilePicture').src = user.profilePicture || "https://via.placeholder.com/100";
+        }
+
+        function openPublishStoryPopup() {
+            document.getElementById('publishStoryPopup').style.display = 'flex';
+        }
+
+        function closePublishStoryPopup() {
+            document.getElementById('publishStoryPopup').style.display = 'none';
+        }
+
+        function loadPublishedContent() {
+            const contentList = document.getElementById('contentList');
+            const booksForSaleList = document.getElementById('booksForSaleList');
+
+            contentList.innerHTML = ''; // Clear existing content
+            booksForSaleList.innerHTML = ''; // Clear existing books for sale content
+        }
+
+        function publishBook() {
+            const title = document.getElementById('bookTitle').value;
+            const genre = document.getElementById('bookGenre').value;
+            const backstory = document.getElementById('bookBackstory').value;
+            const cover = document.getElementById('coverPreview').src;
+            const pdfFile = document.getElementById('bookPDF').files[0];
+
+            if (!title || !genre || !backstory || !cover || !pdfFile) {
+                alert("Please fill in all fields and upload a cover image and PDF.");
+                return;
+            }
+
+            const reader = new FileReader();
+            reader.onloadend = function() {
+                const pdfBase64 = reader.result;
+            };
+
+            reader.readAsDataURL(pdfFile);
+        }
+
+        function showPublishBookPopup() {
+            document.getElementById('publishBookPopup').style.display = 'flex';
+        }
+
+        function closePublishBookPopup() {
+            document.getElementById('publishBookPopup').style.display = 'none';
+        }
+
+        function showSellBookPopup() {
+            document.getElementById('sellBookPopup').style.display = 'flex';
+        }
+
+        function closeSellBookPopup() {
+            document.getElementById('sellBookPopup').style.display = 'none';
+        }
+
+        function openBackstoryPopup(backstory) {
+            document.getElementById('backstoryText').innerText = backstory; // Set backstory text
+            document.getElementById('backstoryPopup').style.display = 'flex'; // Show the popup
+        }
+
+        function closeBackstoryPopup() {
+            document.getElementById('backstoryPopup').style.display = 'none'; // Hide the popup
+        }
+
+        // Chat functionality
+        function showChatOptionsPopup() {
+            document.getElementById('chatOptionsPopup').style.display = 'flex';
+        }
+
+        function closeChatOptionsPopup() {
+            document.getElementById('chatOptionsPopup').style.display = 'none';
+        }
+
+        function openGroupChat() {
+            alert("Opening Group Chat..."); // Replace with your logic
+            closeChatOptionsPopup();
+        }
+
+        function openGeneralChats() {
+            alert("Opening General Chats..."); // Replace with your logic
+            closeChatOptionsPopup();
+        }
+
+        function openOneOnOneChats() {
+            alert("Opening One-on-One Chats..."); // Replace with your logic
+            closeChatOptionsPopup();
+        }
+
+        // Prayer functionality
+        function showPrayerPopup() {
+            document.getElementById('prayerPopup').style.display = 'flex';
+        }
+
+        function closePrayerPopup() {
+            document.getElementById('prayerPopup').style.display = 'none';
+        }
+
+        function submitPrayer() {
+            const prayerInput = document.getElementById('prayerInput').value;
+            if (prayerInput.trim() === "") {
+                alert("Please enter a prayer.");
+                return;
+            }
+
+            const prayerList = document.getElementById('prayerList');
+            const prayerContainer = document.createElement('div');
+            prayerContainer.classList.add('prayer-container');
+            
+            const prayerText = document.createElement('div');
+            prayerText.classList.add('prayer-text');
+            prayerText.innerText = prayerInput;
+
+            const date = new Date().toLocaleString();
+            const prayerDate = document.createElement('div');
+            prayerDate.classList.add('prayer-date');
+            prayerDate.innerText = date;
+
+
+            const checkbox = document.createElement('input');
+            checkbox.type = 'checkbox';
+
+           
+
+            prayerContainer.appendChild(checkbox);
+            prayerContainer.appendChild(prayerText);
+            prayerContainer.appendChild(prayerDate);
+            prayerList.appendChild(prayerContainer);
+
+            prayerInput.value = ""; // Clear input
+            closePrayerPopup(); // Close the prayer popup
+        }
+    </script>
+
+</body>
+</html>
