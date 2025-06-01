@@ -12,30 +12,26 @@
             background-color: #f8f9fa;
             display: flex; /* Use flexbox for layout */
         }
-        .navbar {
+         .navbar {
             display: flex;
-            flex-direction: column; /* Arrange items vertically */
-            justify-content: flex-start; /* Align to the top */
-            align-items: center; /* Center items horizontally */
+            justify-content: space-around;
+            align-items: center;
             background-color: #000;
-            padding: 15px; /* Add padding */
+            padding: 15px 0;
             position: sticky;
             top: 0;
             z-index: 1000;
-            width: 100px; /* Set a fixed width for the navbar */
-            height: 100vh; /* Full height */
         }
+
         .nav-item {
             color: white;
             text-decoration: none;
             text-align: center;
-            padding: 10px; /* Add padding around icons */
-            font-size: 24px; /* Adjust icon size */
             transition: color 0.3s;
-            width: 100%; /* Make icons full-width */
         }
+
         .nav-item:hover {
-            color: #ccc; /* Change color on hover */
+            color: #ccc;
         }
         .story-container {
             display: flex;
