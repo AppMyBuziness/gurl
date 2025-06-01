@@ -90,18 +90,16 @@
             color: #007bff;
         }
         .search-bar {
-            position: fixed; /* Fixes the position */
-            top: 20px; /* Distance from the top */
-            left: 50%; /* Center it horizontally */
-            transform: translateX(-50%); /* Adjust to center */
-            width: 50%; /* Full width with a max limit */
-            max-width: 400px; /* Maximum width */
-            padding: 10px; /* Padding for aesthetics */
-            border: 1px solid #ccc; /* Border color */
-            border-radius: 5px; /* Rounded corners */
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Subtle shadow effect */
-            transition: border-color 0.3s; /* Smooth border color transition */
-            z-index: 1000; /* Ensure it stays above other elements */
+            margin-bottom: 20px;
+            width: 100%;
+            max-width: 300px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px;
+            position: sticky;
+            top: 20px;
+            z-index: 1;
         }
         .modal {
             display: none; /* Hidden by default */
@@ -238,13 +236,13 @@
         </div>
     </div>
 
-   
+   <input type="text" id="searchInput" class="search-bar" placeholder="Search by username or story title" oninput="filterStories()">
+    
     <div class="story-container" id="storyList">
         <h2>Published Stories</h2>
         <!-- Stories will be populated here -->
     </div>
- <input type="text" id="searchInput" class="search-bar" placeholder="Search by username or story title" oninput="filterStories()">
-    
+ 
     <script src="script.js"></script>
 
     <script>
