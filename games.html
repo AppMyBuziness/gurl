@@ -1,131 +1,150 @@
+
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Distress Page</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Games & Activities</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+
     <style>
         body {
-            font-family: Arial, sans-serif;
-            background-color: #121212;
-            color: #ffffff;
             margin: 0;
-            padding: 20px;
-            text-align: center;
+            font-family: Arial, sans-serif;
+            background-color: #f8f9fa;
         }
-        h1 {
-            color: #8e44ad;
-            margin-bottom: 20px;
+
+        .navbar {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            background-color: #000;
+            padding: 15px 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
         }
-        h2 {
-            color: #9b59b6;
-            margin: 20px 0;
-        }
-        .container {
-            display: inline-block;
-            margin: 20px;
-            border: 2px solid #8e44ad;
-            border-radius: 10px;
-            background-color: #2c2c2c;
-            padding: 20px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
-            max-width: 300px;
-        }
-        .slideshow {
-            display: none;
-        }
-        .active {
-            display: block;
-        }
-        .slide {
-            font-size: 1.2em;
-            color: #ffffff;
-        }
-        .video {
-            margin: 20px 0;
-            max-width: 100%;
-            border: 2px solid #8e44ad;
-            border-radius: 10px;
-            overflow: hidden;
-        }
-        .button {
-            background-color: #8e44ad;
+
+        .nav-item {
             color: white;
-            padding: 10px 20px;
+            text-decoration: none;
+            text-align: center;
+            transition: color 0.3s;
+        }
+
+        .nav-item:hover {
+            color: #ccc;
+        }
+
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 30px 20px;
+            max-width: 1200px;
+            margin: auto;
+        }
+
+        h1 {
+            margin-bottom: 30px;
+        }
+
+        .activity-card {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            padding: 25px;
+            margin: 15px 0;
+            width: 100%;
+            max-width: 600px;
+            transition: transform 0.2s;
+        }
+
+        .activity-card:hover {
+            transform: scale(1.02);
+        }
+
+        .activity-title {
+            font-size: 1.5em;
+            margin: 0;
+        }
+
+        .activity-description {
+            margin: 10px 0 20px;
+            font-size: 1em;
+            color: #000;
+        }
+
+        .do-button {
+            background-color: #000;
+            color: white;
             border: none;
+            padding: 10px 15px;
             border-radius: 5px;
             cursor: pointer;
-            text-decoration: none;
-            margin: 10px;
-            display: inline-block;
-            transition: background-color 0.3s;
+            transition: background 0.3s;
         }
-        .button:hover {
-            background-color: #732d91;
+
+        .do-button:hover {
+            background-color: #333;
         }
     </style>
 </head>
+
 <body>
 
-    <h1>Welcome to Your Distress Page</h1>
-    <p>Take a moment for yourself.</p>
+<div class="navbar">
+    <a href="dashboard.html" class="nav-item" title="Dashboard">
+        <i class="fas fa-tachometer-alt"></i>
+    </a>
+    <a href="store.html" class="nav-item" title="Store">
+        <i class="fas fa-store"></i>
+    </a>
+    <a href="event.html" class="nav-item" title="Events">
+        <i class="fas fa-calendar-alt"></i>
+    </a>
+    <a href="stories.html" class="nav-item" title="Stories">
+        <i class="fas fa-book-open"></i>
+    </a>
+    <a href="publish.html" class="nav-item" title="Posts">
+        <i class="fas fa-file-alt"></i>
+    </a>
+    <a href="tdiary.html" class="nav-item" title="Diary">
+        <i class="fas fa-book"></i>
+    </a>
+    <a href="prayer.html" class="nav-item" title="Prayer">
+        <i class="fas fa-praying-hands"></i>
+    </a>
+</div>
 
-    <h2>Games</h2>
-    <a class="button" href="https://www.jigsawplanet.com/" target="_blank">Play a Jigsaw Puzzle</a>
+<div class="container">
+    <h1>Games & Activities</h1>
 
-    <div class="container">
-        <h2>Affirmations</h2>
-        <div class="slideshow active" id="affirmationSlideshow">
-            <div class="slide">You are enough.</div>
-            <div class="slide">You are loved.</div>
-            <div class="slide">Every day is a new beginning.</div>
-            <div class="slide">You have the power to change.</div>
-            <div class="slide">Your feelings are valid.</div>
-        </div>
+    <div class="activity-card">
+        <h2 class="activity-title">Delivering Challenge</h2>
+        <p class="activity-description">
+            Take on missions to deliver messages, items, or blessings to others in your community. Points and rewards await!
+        </p>
+        <button class="do-button">Do It</button>
     </div>
 
-    <div class="container">
-        <h2>Bible Verses</h2>
-        <div class="slideshow active" id="verseSlideshow">
-            <div class="slide">Philippians 4:13 - I can do all things through Christ who strengthens me.</div>
-            <div class="slide">Isaiah 41:10 - Fear not, for I am with you.</div>
-            <div class="slide">Psalm 23:4 - Even though I walk through the darkest valley, I will fear no evil.</div>
-            <div class="slide">Romans 15:13 - May the God of hope fill you with all joy and peace.</div>
-            <div class="slide">Matthew 11:28 - Come to me, all you who are weary and burdened, and I will give you rest.</div>
-        </div>
+    <div class="activity-card">
+        <h2 class="activity-title">Become an Agent</h2>
+        <p class="activity-description">
+            Join our agent program and take on exciting roles to inspire, guide, and support others through your journey.
+        </p>
+        <button class="do-button">Do It</button>
     </div>
 
-    <h2>Short Videos</h2>
-    <div class="video">
-        <iframe width="560" height="315" src="https://www.youtube.com/embed/dQw4w9WgXcQ" frameborder="0" allowfullscreen></iframe>
+    <div class="activity-card">
+        <h2 class="activity-title">Magazine Feature</h2>
+        <p class="activity-description">
+            Apply to be featured in our digital magazine. Share your story, mission, or artwork with the world!
+        </p>
+        <button class="do-button">Do It</button>
     </div>
-
-    <script>
-        let affirmationIndex = 0;
-        let verseIndex = 0;
-
-        function showSlides(slideshowId, index) {
-            const slides = document.querySelectorAll(`#${slideshowId} .slide`);
-            slides.forEach(slide => slide.classList.remove('active'));
-            slides[index].classList.add('active');
-        }
-
-        function startSlideshow(slideshowId, interval) {
-            setInterval(() => {
-                if (slideshowId === 'affirmationSlideshow') {
-                    affirmationIndex = (affirmationIndex + 1) % document.querySelectorAll('#affirmationSlideshow .slide').length;
-                    showSlides(slideshowId, affirmationIndex);
-                } else {
-                    verseIndex = (verseIndex + 1) % document.querySelectorAll('#verseSlideshow .slide').length;
-                    showSlides(slideshowId, verseIndex);
-                }
-            }, interval);
-        }
-
-        // Start the slideshows
-        startSlideshow('affirmationSlideshow', 3000);
-        startSlideshow('verseSlideshow', 5000);
-    </script>
+</div>
 
 </body>
 </html>
