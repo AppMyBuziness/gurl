@@ -465,14 +465,7 @@
             prayerInput.value = ""; // Clear input
             closePrayerPopup(); // Close the prayer popup
         }
-          document.getElementById('toggleButton').onclick = function() {
-        var actionButtons = document.getElementById('actionButtons');
-        if (actionButtons.style.display === 'none') {
-            actionButtons.style.display = 'block';
-        } else {
-            actionButtons.style.display = 'none';
-        }
-    };
+         
     </script>
 <footer style="text-align: center; padding: 10px; background-color: #000; position: fixed; bottom: 0; left: 0; width: 100%; z-index: 1000;">
     <div>
@@ -491,6 +484,17 @@
     <iframe src="https://giphy.com/embed/fo7f58mV6C27UWxlLj" width="50" height="50" frameBorder="0" class="giphy-embed" allowFullScreen></iframe>
     <p><a href="https://giphy.com/stickers/animation-bean-ketnipz-fo7f58mV6C27UWxlLj"></a></p>
 </footer>
+
+<script>
+    document.getElementById('toggleButton').onclick = function() {
+        var actionButtons = document.getElementById('actionButtons');
+        if (actionButtons.style.display === 'none') {
+            actionButtons.style.display = 'block';
+        } else {
+            actionButtons.style.display = 'none';
+        }
+    };
+</script>
 
 
   
